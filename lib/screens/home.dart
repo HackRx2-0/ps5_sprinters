@@ -137,8 +137,10 @@ class _HomeState extends State<Home> {
                   labels: ['English', 'Hindi'],
                   onToggle: (index) async {
                     if (index == 1) {
+                      print(index);
                       await Storage().setSpeechLanguageToHindi();
                     } else {
+                      print(index);
                       await Storage().setSpeechLanguageToEnglish();
                     }
                   },

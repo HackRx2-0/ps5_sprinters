@@ -82,22 +82,22 @@ class _MyAppState extends State<MyApp> {
                     }),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(10),
+                    bottom: Radius.circular(15),
                   ),
                 ),
                 actions: [
                   Icon(Icons.notifications),
                   Icon(Icons.more_vert),
-                  InkWell(
-                    child: Icon(Icons.notifications),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ListNotifications()),
-                      );
-                    },
-                  )
+                  // InkWell(
+                  //   child: Icon(Icons.notifications),
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => ListNotifications()),
+                  //     );
+                  //   },
+                  // )
                 ],
               ),
               drawer: AppDrawer(),
