@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: Colors.blue[700]),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -26,15 +27,13 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: <Widget>[
                       CircleAvatar(
                         backgroundColor: Colors.white,
-                        radius: 50.0,
-                        child: Icon(
-                          Icons.shopping_cart,
-                          color: Colors.greenAccent,
-                          size: 50.0,
+                        radius: 80.0,
+                        child: Image.network(
+                          'https://res.cloudinary.com/neonvs/image/upload/w_110,r_100/v1627042360/bajaj_logo_tegevp.png',
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10.0),
+                        padding: EdgeInsets.only(top: 10.0, bottom: 20.0),
                       ),
                       Text(
                         'Bajaj Finserv',
@@ -52,12 +51,15 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    SpinKitWave(
+                      color: Colors.white,
+                      size: 40,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
                     ),
                     Text(
-                      'Store',
+                      'Welcome',
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(
