@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/settings.dart';
+import '../screens/splash_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -84,7 +85,12 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.touch_app),
             title: Text('Get in Touch'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SplashScreen()),
+              );
+            },
           ),
           Divider(),
           ListTile(
