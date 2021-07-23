@@ -1,12 +1,40 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:voice_notification_app/core/core.dart';
+import 'package:voice_notification_app/test_notification/notification_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import './widgets/app_drawer.dart';
 import './screens/splash_screen.dart';
 
-void main() => runApp(MyApp());
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  String? title = message.notification!.title;
+  String? body = message.notification!.body;
+  await Core.notificationHandler(title, body);
+}
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await NotificationService().init();
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
