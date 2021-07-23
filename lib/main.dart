@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import './widgets/app_drawer.dart';
+import './screens/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,50 +18,81 @@ class _MyAppState extends State<MyApp> {
       Completer<WebViewController>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late WebViewController _myController;
+  bool isLoading = true;
+  bool splashScreen = true;
+  final _key = UniqueKey();
+
+  void popSplashScreen() {
+    Timer(Duration(seconds: 5), () {
+      setState(() {
+        splashScreen = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    popSplashScreen();
     return MaterialApp(
       title: 'Bajaj Finserv',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: const Text('BAJAJ Finserv'),
-          backgroundColor: Colors.blue[800],
-          centerTitle: true,
-          leading: IconButton(
-              icon: Icon(
-                Icons.menu,
+      home: splashScreen
+          ? SplashScreen()
+          : Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                title: const Text('BAJAJ Finserv'),
+                backgroundColor: Colors.blue[800],
+                centerTitle: true,
+                leading: IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                    ),
+                    onPressed: () {
+                      _scaffoldKey.currentState!.openDrawer();
+                    }),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(10),
+                  ),
+                ),
+                actions: [
+                  Icon(Icons.notifications),
+                  Icon(Icons.more_vert),
+                ],
               ),
-              onPressed: () {
-                _scaffoldKey.currentState!.openDrawer();
-              }),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(10),
+              drawer: AppDrawer(),
+              body: Stack(
+                children: [
+                  WebView(
+                    key: _key,
+                    initialUrl: "https://www.bajajfinserv.in/",
+                    javascriptMode: JavascriptMode.unrestricted,
+                    onWebViewCreated: (WebViewController webViewController) {
+                      _controller.complete(webViewController);
+                      _myController = webViewController;
+                    },
+                    onPageFinished: (String url) {
+                      print('Loaded');
+                      setState(() {
+                        isLoading = false;
+                      });
+                      print('Page finished loading: $url');
+                      _myController.evaluateJavascript(
+                          "document.getElementsByClassName(\"navbar\")[0].style.display='none';");
+                    },
+                  ),
+                  isLoading
+                      ? Center(
+                          child: SpinKitPulse(
+                            color: Colors.blue[900],
+                            size: 70,
+                          ),
+                        )
+                      : Stack(),
+                ],
+              ),
             ),
-          ),
-          actions: [
-            Icon(Icons.notifications),
-            Icon(Icons.more_vert),
-          ],
-        ),
-        drawer: AppDrawer(),
-        body: WebView(
-          initialUrl: "https://www.bajajfinserv.in/",
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-            _myController = webViewController;
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
-            _myController.evaluateJavascript(
-                "document.getElementsByClassName(\"navbar\")[0].style.display='none';");
-          },
-        ),
-      ),
     );
   }
 }
