@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/settings.dart';
+
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,12 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsOnePage()),
+              );
+            },
           ),
           Divider(),
           ListTile(

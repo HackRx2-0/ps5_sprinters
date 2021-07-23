@@ -61,13 +61,13 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     elevation: 8.0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.purple,
+                    color: Colors.blue[800],
                     child: ListTile(
                       onTap: () {
                         //open edit profile
                       },
                       title: Text(
-                        "John Doe",
+                        "Vishu Saxena",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
@@ -75,7 +75,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                       ),
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(
-                            'https://images.unsplash.com/photo-1541647376583-8934aaf3448a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80'),
+                            'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80'),
                       ),
                       trailing: Icon(
                         Icons.edit,
@@ -94,7 +94,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ListTile(
                           leading: Icon(
                             Icons.lock_outline,
-                            color: Colors.purple,
+                            color: Colors.blue[700],
                           ),
                           title: Text("Change Password"),
                           trailing: Icon(Icons.keyboard_arrow_right),
@@ -106,7 +106,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ListTile(
                           leading: Icon(
                             FontAwesomeIcons.language,
-                            color: Colors.purple,
+                            color: Colors.blue[700],
                           ),
                           title: Text("Change Language"),
                           trailing: Icon(Icons.keyboard_arrow_right),
@@ -118,7 +118,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ListTile(
                           leading: Icon(
                             Icons.location_on,
-                            color: Colors.purple,
+                            color: Colors.blue[700],
                           ),
                           title: Text("Change Location"),
                           trailing: Icon(Icons.keyboard_arrow_right),
@@ -139,28 +139,28 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     ),
                   ),
                   SwitchListTile(
-                    activeColor: Colors.purple,
+                    activeColor: Colors.blue[700],
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
                     title: Text("Received notification"),
                     onChanged: (val) {},
                   ),
                   SwitchListTile(
-                    activeColor: Colors.purple,
+                    activeColor: Colors.blue[700],
                     contentPadding: const EdgeInsets.all(0),
                     value: false,
                     title: Text("Received newsletter"),
                     onChanged: null,
                   ),
                   SwitchListTile(
-                    activeColor: Colors.purple,
+                    activeColor: Colors.blue[700],
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
                     title: Text("Received Offer Notification"),
                     onChanged: (val) {},
                   ),
                   SwitchListTile(
-                    activeColor: Colors.purple,
+                    activeColor: Colors.blue[700],
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
                     title: Text("Received App Updates"),
@@ -178,7 +178,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                 height: 80,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: Colors.blue[800],
                   shape: BoxShape.circle,
                 ),
               ),
@@ -188,10 +188,11 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
               left: 00,
               child: IconButton(
                 icon: Icon(
-                  FontAwesomeIcons.powerOff,
+                  FontAwesomeIcons.backward,
                   color: Colors.white,
                 ),
                 onPressed: () {
+                  Navigator.of(context).pop();
                   //log out
                 },
               ),
