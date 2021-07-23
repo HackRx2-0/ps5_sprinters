@@ -57,26 +57,11 @@ class AppDrawer extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.shop),
-            title: Text('Shop Online'),
-            onTap: () {},
-          ),
-          ListTile(
             leading: Icon(Icons.payment),
             title: Text('Bills and Recharge History'),
             onTap: () {},
           ),
-          ListTile(
-            leading: Icon(Icons.calculate),
-            title: Text('Calculators'),
-            onTap: () {},
-          ),
           Divider(),
-          ListTile(
-            leading: Icon(Icons.query_stats),
-            title: Text('Raised Requests'),
-            onTap: () {},
-          ),
           ListTile(
             leading: Icon(Icons.add_alert),
             title: Text('Raise a query'),
