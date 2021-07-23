@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187598967685",
+    "project_id": "voice-notification-app",
+    "storage_bucket": "voice-notification-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187598967685:android:6144d43d104cd2d3742aec",
+        "android_client_info": {
+          "package_name": "com.example.voice_notification_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187598967685-n7i01gt13k4t1v1feq4ctbqacu1on24r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6muZKxMU7d4FoukfSweEPVsIRiCTy3t0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187598967685-n7i01gt13k4t1v1feq4ctbqacu1on24r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
