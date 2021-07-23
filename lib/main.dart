@@ -4,13 +4,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:voice_notification_app/core/core.dart';
-import 'package:voice_notification_app/screens/list_notifications.dart';
 import 'package:voice_notification_app/test_notification/notification_service.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import './widgets/app_drawer.dart';
 import './screens/splash_screen.dart';
+import './screens/home_page.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -34,6 +32,7 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
+  print('run');
   runApp(MyApp());
 }
 
@@ -43,16 +42,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late WebViewController _myController;
-  bool isLoading = true;
   bool splashScreen = true;
-  final _key = UniqueKey();
 
-  void popSplashScreen() {
-    Timer(Duration(seconds: 5), () {
+  void popSplashScreen(BuildContext context) async {
+    Future.delayed(Duration(seconds: 3), () {
       setState(() {
         splashScreen = false;
       });
@@ -61,7 +55,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    popSplashScreen();
+    if (splashScreen) {
+      popSplashScreen(context);
+    }
+    print('run');
     return MaterialApp(
       title: 'Bajaj Finserv',
       debugShowCheckedModeBanner: false,
@@ -88,49 +85,10 @@ class _MyAppState extends State<MyApp> {
                 actions: [
                   Icon(Icons.notifications),
                   Icon(Icons.more_vert),
-                  // InkWell(
-                  //   child: Icon(Icons.notifications),
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) => ListNotifications()),
-                  //     );
-                  //   },
-                  // )
                 ],
               ),
               drawer: AppDrawer(),
-              body: Stack(
-                children: [
-                  WebView(
-                    key: _key,
-                    initialUrl: "https://www.bajajfinserv.in/",
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) {
-                      _controller.complete(webViewController);
-                      _myController = webViewController;
-                    },
-                    onPageFinished: (String url) {
-                      print('Loaded');
-                      setState(() {
-                        isLoading = false;
-                      });
-                      print('Page finished loading: $url');
-                      _myController.evaluateJavascript(
-                          "document.getElementsByClassName(\"navbar\")[0].style.display='none';");
-                    },
-                  ),
-                  isLoading
-                      ? Center(
-                          child: SpinKitPulse(
-                            color: Colors.blue[900],
-                            size: 70,
-                          ),
-                        )
-                      : Stack(),
-                ],
-              ),
+              body: HomePage(),
             ),
     );
   }
