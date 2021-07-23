@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:voice_notification_app/core/core.dart';
+import 'package:voice_notification_app/screens/list_notifications.dart';
 import 'package:voice_notification_app/test_notification/notification_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -87,6 +88,16 @@ class _MyAppState extends State<MyApp> {
                 actions: [
                   Icon(Icons.notifications),
                   Icon(Icons.more_vert),
+                  InkWell(
+                    child: Icon(Icons.notifications),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListNotifications()),
+                      );
+                    },
+                  )
                 ],
               ),
               drawer: AppDrawer(),

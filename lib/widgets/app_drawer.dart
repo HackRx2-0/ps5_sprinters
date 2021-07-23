@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voice_notification_app/screens/home.dart';
 
 import '../screens/settings.dart';
 import '../screens/splash_screen.dart';
@@ -84,7 +85,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsOnePage()),
+                MaterialPageRoute(builder: (context) => Home()),
               );
             },
           ),
