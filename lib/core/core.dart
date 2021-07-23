@@ -5,6 +5,8 @@ import 'package:voice_notification_app/storage/storage.dart';
 import 'package:voice_notification_app/storage/storage_constants.dart';
 import 'package:voice_notification_app/translation/translation_utils.dart';
 
+import '../helper/checkSafeString.dart';
+
 class Core {
   static Future<void> notificationHandler(String? title, String? body) async {
     await NotifDatabaseProvider.db
@@ -13,6 +15,9 @@ class Core {
     String textToSpeechPreference = await storage.retrieveTextToSpeechStatus();
 
     if (textToSpeechPreference == TEXT_TO_SPEECH_ON) {
+      if (!checkSafeString(body)) {
+        return;
+      }
       String notificationText = "Message from $title. $body";
       String translateToLanguageCode =
           await TranslationUtils.retrieveLanguageCode();
