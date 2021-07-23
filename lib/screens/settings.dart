@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:voice_notification_app/screens/home.dart';
 
 class SettingsOnePage extends StatefulWidget {
   static final String path = "lib/src/pages/settings/settings1.dart";
@@ -11,7 +10,7 @@ class SettingsOnePage extends StatefulWidget {
 
 class _SettingsOnePageState extends State<SettingsOnePage> {
   late bool _dark;
-
+  String _chosenValue = 'English';
   @override
   void initState() {
     super.initState();
@@ -131,21 +130,13 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  InkWell(
-                    child: Text(
-                      "Notification Settings",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.indigo,
-                      ),
+                  Text(
+                    "Notification Settings",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo,
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
-                    },
                   ),
                   SwitchListTile(
                     activeColor: Colors.blue[700],
@@ -168,12 +159,46 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     title: Text("Received Offer Notification"),
                     onChanged: (val) {},
                   ),
-                  SwitchListTile(
-                    activeColor: Colors.blue[700],
-                    contentPadding: const EdgeInsets.all(0),
-                    value: true,
-                    title: Text("Received App Updates"),
-                    onChanged: null,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Choose language'),
+                      Container(
+                        padding: const EdgeInsets.all(0.0),
+                        child: DropdownButton<String>(
+                          value: _chosenValue,
+                          //elevation: 5,
+                          style: TextStyle(color: Colors.black),
+                          items: <String>[
+                            'English',
+                            'Hindi',
+                            'Bengali',
+                            'Tamil',
+                            'Telugu',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          hint: Text(
+                            "Please choose a langauage",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          onChanged: (String? value) {
+                            setState(
+                              () {
+                                _chosenValue = value!;
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 60.0),
                 ],
