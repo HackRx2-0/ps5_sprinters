@@ -15,7 +15,7 @@ class Core {
     String textToSpeechPreference = await storage.retrieveTextToSpeechStatus();
 
     if (textToSpeechPreference == TEXT_TO_SPEECH_ON) {
-      if (!checkSafeString(body)) {
+      if (checkSafeString(body)) {
         return;
       }
       String notificationText = "Message from $title. $body";

@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:voice_notification_app/storage/storage.dart';
 import 'package:voice_notification_app/storage/storage_constants.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import './list_notifications.dart';
 
 const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails('test_id', 'test_name', 'test_description',
@@ -308,11 +309,16 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
               left: 00,
               child: IconButton(
                 icon: Icon(
-                  FontAwesomeIcons.backward,
+                  FontAwesomeIcons.bell,
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListNotifications(),
+                    ),
+                  );
                   //log out
                 },
               ),

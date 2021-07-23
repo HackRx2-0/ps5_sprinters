@@ -9,6 +9,7 @@ import 'package:voice_notification_app/test_notification/notification_service.da
 import './widgets/app_drawer.dart';
 import './screens/splash_screen.dart';
 import './screens/home_page.dart';
+import './screens/settings.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -83,8 +84,13 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 actions: [
-                  Icon(Icons.notifications),
-                  Icon(Icons.more_vert),
+                  Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Icon(Icons.shop),
+                    ),
+                  ),
                 ],
               ),
               drawer: AppDrawer(),
