@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voice_notification_app/screens/home.dart';
 
 import '../screens/settings.dart';
-import '../screens/splash_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -71,12 +69,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.touch_app),
             title: Text('Get in Touch'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SplashScreen()),
-              );
-            },
+            onTap: () {},
           ),
           Divider(),
           ListTile(
@@ -85,7 +78,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => SettingsOnePage()),
               );
             },
           ),

@@ -12,6 +12,18 @@ class Storage {
     await storage.write(key: LANGUAGE_KEY, value: ENGLISH_LANGUAGE);
   }
 
+  Future<void> setSpeechLanguageToBengali() async {
+    await storage.write(key: LANGUAGE_KEY, value: BENGALI_LANGUAGE);
+  }
+
+  Future<void> setSpeechLanguageToTamil() async {
+    await storage.write(key: LANGUAGE_KEY, value: TAMIL_LANGUAGE);
+  }
+
+  Future<void> setSpeechLanguageToTelugu() async {
+    await storage.write(key: LANGUAGE_KEY, value: TELUGU_LANGUAGE);
+  }
+
   Future<String> retrieveSpeechLanguage() async {
     String? value = await storage.read(key: LANGUAGE_KEY);
     return value != null ? value : ENGLISH_LANGUAGE;

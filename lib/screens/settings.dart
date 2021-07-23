@@ -1,5 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:voice_notification_app/core/core.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:voice_notification_app/storage/storage.dart';
+import 'package:voice_notification_app/storage/storage_constants.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
+const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails('test_id', 'test_name', 'test_description',
+        importance: Importance.max, priority: Priority.high);
+const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+const Map<String, String> languageMap = {
+  ENGLISH_LANGUAGE: 'English',
+  HINDI_LANGUAGE: 'Hindi',
+  BENGALI_LANGUAGE: 'Bengali',
+  TAMIL_LANGUAGE: 'Tamil',
+  TELUGU_LANGUAGE: 'Telugu'
+};
 
 class SettingsOnePage extends StatefulWidget {
   static final String path = "lib/src/pages/settings/settings1.dart";
@@ -11,10 +31,37 @@ class SettingsOnePage extends StatefulWidget {
 class _SettingsOnePageState extends State<SettingsOnePage> {
   late bool _dark;
   String _chosenValue = 'English';
+
+  void triggerTestNotification() async {
+    String title = 'Bajaj Finserv';
+    String body = 'Your Wallet credited with 100 rupees';
+    await Core.notificationHandler(title, body);
+    await flutterLocalNotificationsPlugin.show(
+        0, title, body, platformChannelSpecifics);
+  }
+
   @override
   void initState() {
     super.initState();
+    initDefaultValues();
     _dark = false;
+  }
+
+  int initAudioPrefIndex = 0;
+  int initAudioLanguageIndex = 0;
+
+  Future<void> initDefaultValues() async {
+    String textToSpeechPreference =
+        await Storage().retrieveTextToSpeechStatus();
+    initAudioPrefIndex = textToSpeechPreference == TEXT_TO_SPEECH_ON ? 0 : 1;
+
+    String audioLanguage = await Storage().retrieveSpeechLanguage();
+    _chosenValue = languageMap[audioLanguage]!;
+
+    setState(() {
+      initAudioLanguageIndex = initAudioLanguageIndex;
+      _chosenValue = _chosenValue;
+    });
   }
 
   Brightness _getBrightness() {
@@ -23,6 +70,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("ihdhihdi");
     return Theme(
       data: ThemeData(
         brightness: _getBrightness(),
@@ -138,29 +186,49 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                       color: Colors.indigo,
                     ),
                   ),
-                  SwitchListTile(
-                    activeColor: Colors.blue[700],
-                    contentPadding: const EdgeInsets.all(0),
-                    value: true,
-                    title: Text("Received notification"),
-                    onChanged: (val) {},
-                  ),
-                  SwitchListTile(
-                    activeColor: Colors.blue[700],
-                    contentPadding: const EdgeInsets.all(0),
-                    value: false,
-                    title: Text("Received newsletter"),
-                    onChanged: null,
-                  ),
-                  SwitchListTile(
-                    activeColor: Colors.blue[700],
-                    contentPadding: const EdgeInsets.all(0),
-                    value: true,
-                    title: Text("Received Offer Notification"),
-                    onChanged: (val) {},
+                  SizedBox(height: 20.0),
+                  Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Set text to speech:',
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Container(
+                        height: 30.0,
+                        child: ToggleSwitch(
+                          cornerRadius: 5.0,
+                          activeBgColor: [Colors.black],
+                          activeFgColor: Colors.white,
+                          inactiveBgColor: Colors.grey[200],
+                          inactiveFgColor: Colors.grey[900],
+                          initialLabelIndex: initAudioPrefIndex,
+                          totalSwitches: 2,
+                          animate: true,
+                          curve: Curves.linear,
+                          labels: ['ON', 'OFF'],
+                          onToggle: (index) async {
+                            if (index == 1) {
+                              initAudioPrefIndex = 1;
+                              await Storage().setTextToSpeechOff();
+                            } else {
+                              initAudioPrefIndex = 0;
+                              await Storage().setTextToSpeechOn();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  )),
+                  SizedBox(
+                    height: 20.0,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text('Choose language'),
                       Container(
@@ -181,24 +249,42 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                               child: Text(value),
                             );
                           }).toList(),
-                          hint: Text(
-                            "Please choose a langauage",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
                           onChanged: (String? value) {
                             setState(
                               () {
                                 _chosenValue = value!;
                               },
                             );
+
+                            if (value == 'English') {
+                              Storage().setSpeechLanguageToEnglish();
+                            } else if (value == 'Hindi') {
+                              Storage().setSpeechLanguageToHindi();
+                            } else if (value == 'Bengali') {
+                              Storage().setSpeechLanguageToBengali();
+                            } else if (value == 'Tamil') {
+                              Storage().setSpeechLanguageToTamil();
+                            } else {
+                              Storage().setSpeechLanguageToTelugu();
+                            }
                           },
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    child: InkWell(
+                        onTap: triggerTestNotification,
+                        child: Text(
+                          'Trigger test notification',
+                          style: TextStyle(
+                              color: Colors.blue[700],
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
+                        )),
                   ),
                   const SizedBox(height: 60.0),
                 ],
